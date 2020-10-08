@@ -68,7 +68,6 @@ after_initialize do
       user_ids_notification_enabled = resultUsersNotificationsEnabled.values.flatten
       user_ids_with_corresponding_size = result.values.flatten
       user_ids_to_ping = user_ids_with_corresponding_size.intersection(user_ids_notification_enabled)
-      puts user_ids_to_ping
 
       user_ids_to_ping.each do |user_id_to_ping|
         Notification.create!(
