@@ -4,7 +4,7 @@
 # about: Enter your clothing sizes in your profile and get pinged when someone post a deal in your size!
 # version: 0.1
 # authors: Maël Lavault
-# url: https://github.com/moimael
+# url: https://github.com/Borasification/clothing-deals
 
 register_asset 'stylesheets/common/clothing-deals.scss'
 register_asset 'stylesheets/desktop/clothing-deals.scss', :desktop
