@@ -9,7 +9,6 @@
 register_asset 'stylesheets/common/clothing-deals.scss'
 register_asset 'stylesheets/desktop/clothing-deals.scss', :desktop
 register_asset 'stylesheets/mobile/clothing-deals.scss', :mobile
-require 'current_user'
 
 enabled_site_setting :clothing_deals_enabled
 
