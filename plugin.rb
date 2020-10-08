@@ -50,8 +50,12 @@ after_initialize do
 
     bot_username = SiteSetting.deal_bot_user
 
-    mentions_bot_name = post_contents.downcase =~ /@#{bot_username.downcase}\b/
-    command, category, size = post_contents.match(/(@#{bot_username.downcase}) ([\S]+) ([\S]+)/).captures
+    begin
+      mentions_bot_name = post_contents.downcase =~ /@#{bot_username.downcase}\b/
+      command, category, size = post_contents.match(/(@#{bot_username.downcase}) ([\S]+) ([\S]+)/).captures
+    rescue => exception
+      return
+    end
 
     if mentions_bot_name && categories_to_fields.key?(category) && size
       # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
