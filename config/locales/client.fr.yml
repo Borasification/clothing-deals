@@ -1,6 +1,7 @@
 fr:
   js:
     clothing_deals:
+      receive_good_deals: "Recevoir les bons plans"
       size_top: "Taille veste"
       size_bottom: "Taille pantalon"
       size_shoes: "Taille chaussures"

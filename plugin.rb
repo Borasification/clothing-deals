@@ -9,6 +9,7 @@
 register_asset 'stylesheets/common/clothing-deals.scss'
 register_asset 'stylesheets/desktop/clothing-deals.scss', :desktop
 register_asset 'stylesheets/mobile/clothing-deals.scss', :mobile
+require 'current_user'
 
 enabled_site_setting :clothing_deals_enabled
 
@@ -57,8 +58,17 @@ after_initialize do
 
     if mentions_bot_name && categories_to_fields.key?(category) && size
       # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
-      result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{categories_to_fields[category]}' and value='#{size}'")
-      user_ids_to_ping = result.values.flatten
+      begin
+        result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{categories_to_fields[category]}' and value='#{size}'")
+        resultUsersNotificationsEnabled = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='receive_good_deals' and value='#{true}'")
+      rescue Exception => exc
+        puts exc
+        return
+      end
+      user_ids_notification_enabled = resultUsersNotificationsEnabled.values.flatten
+      user_ids_with_corresponding_size = result.values.flatten
+      user_ids_to_ping = user_ids_with_corresponding_size.intersection(user_ids_notification_enabled)
+      puts user_ids_to_ping
 
       user_ids_to_ping.each do |user_id_to_ping|
         Notification.create!(

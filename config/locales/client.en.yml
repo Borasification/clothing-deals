@@ -1,6 +1,7 @@
 en:
   js:
     clothing_deals:
+      receive_good_deals: "Receive good deals"
       size_top: "Top size"
       size_bottom: "Bottom size"
       size_shoes: "Shoe size"

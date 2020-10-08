@@ -1,4 +1,9 @@
 {{#if siteSettings.clothing_deals_enabled}}
+<label>
+  {{input type="checkbox" name="receive_good_deals" checked=user.custom_fields.receive_good_deals}}
+  {{i18n "clothing_deals.receive_good_deals"}}
+</label>
+
 <label class="control-label">{{i18n "clothing_deals.size_top"}}</label>
 {{combo-box
     valueProperty="value"
