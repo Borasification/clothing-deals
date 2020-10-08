@@ -14,8 +14,6 @@ enabled_site_setting :clothing_deals_enabled
 
 PLUGIN_NAME ||= 'ClothingDeal'
 
-load File.expand_path('lib/clothing-deals/engine.rb', __dir__)
-
 after_initialize do
   User.register_custom_field_type 'size_top', :string
   User.register_custom_field_type 'size_bottom', :string
