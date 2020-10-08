@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    clothing_deals_enabled: "Enable ClothingDeals plugin"
+    deal_bot_user: "The command used to invoke the bot"

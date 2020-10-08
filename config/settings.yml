@@ -1,0 +1,6 @@
+plugins:
+  clothing_deals_enabled:
+    default: true
+    client: true
+  deal_bot_user:
+    default: "bonplan"

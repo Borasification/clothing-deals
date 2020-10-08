@@ -1,0 +1,9 @@
+fr:
+  js:
+    clothing_deals:
+      size_top: "Taille veste"
+      size_bottom: "Taille pantalon"
+      size_shoes: "Taille chaussures"
+      size_gloves: "Taille gants"
+      size_hat: "Taille chapeau"
+      deal_notification_message: "Il y a un bon plan dans votre taille!"

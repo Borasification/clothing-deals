@@ -1,0 +1,9 @@
+en:
+  js:
+    clothing_deals:
+      size_top: "Top size"
+      size_bottom: "Bottom size"
+      size_shoes: "Shoe size"
+      size_gloves: "Glove size"
+      size_hat: "Hat size"
+      deal_notification_message: "There is potentially a new deal in your size!"
