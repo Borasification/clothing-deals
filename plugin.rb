@@ -16,15 +16,17 @@ PLUGIN_NAME ||= 'ClothingDeal'
 
 after_initialize do
   User.register_custom_field_type 'size_top', :string
+  User.register_custom_field_type 'size_shirt', :string
   User.register_custom_field_type 'size_bottom', :string
   User.register_custom_field_type 'size_shoes', :string
   User.register_custom_field_type 'size_gloves', :string
   User.register_custom_field_type 'size_hat', :string
   User.register_custom_field_type 'receive_good_deals', :boolean
 
-  register_editable_user_custom_field [:size_top, :size_bottom, :size_shoes, :size_gloves, :size_hat, :receive_good_deals]
+  register_editable_user_custom_field [:receive_good_deals, size_top: [], size_shirt: [], size_bottom: [], size_shoes: [], size_gloves: [], size_hat: []]
 
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_top'
+  DiscoursePluginRegistry.serialized_current_user_fields << 'size_shirt'
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_bottom'
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_shoes'
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_gloves'
@@ -44,6 +46,7 @@ after_initialize do
   def on_post_created(post)
     categories_to_fields = {
       "veste" => "size_top",
+      "chemise" => "size_shirt",
       "pantalon" => "size_bottom",
       "chaussures" => "size_shoes",
       "gants" => "size_gloves",

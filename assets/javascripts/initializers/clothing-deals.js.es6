@@ -13,7 +13,6 @@ function initializeClothingDeal(api) {
 
 export default {
   name: "clothing-deals",
-
   initialize() {
     withPluginApi("0.8.31", initializeClothingDeal);
   },

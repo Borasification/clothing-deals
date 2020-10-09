@@ -3,6 +3,7 @@ en:
     clothing_deals:
       receive_good_deals: "Receive good deals"
       size_top: "Top size"
+      size_shirt: "Shirt size"
       size_bottom: "Bottom size"
       size_shoes: "Shoe size"
       size_gloves: "Glove size"

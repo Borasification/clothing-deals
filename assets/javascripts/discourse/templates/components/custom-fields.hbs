@@ -5,42 +5,68 @@
 </label>
 
 <label class="control-label">{{i18n "clothing_deals.size_top"}}</label>
-{{combo-box
-    valueProperty="value"
-    content=sizeTopOptions
-    value=user.custom_fields.size_top
-    id="user-profile-custom-field-size-top"
-  }}
+{{multi-select
+  allowAny=false
+  content=sizeTopOptions
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  value=user.custom_fields.size_top
+}}
+
+<label class="control-label">{{i18n "clothing_deals.size_shirt"}}</label>
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeShirtOptions
+  value=user.custom_fields.size_shirt
+}}
 
 <label class="control-label">{{i18n "clothing_deals.size_bottom"}}</label>
-{{combo-box
-    valueProperty="value"
-    content=sizeTopOptions
-    value=user.custom_fields.size_bottom
-    id="user-profile-custom-field-size-bottom"
-  }}
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeTopOptions
+  value=user.custom_fields.size_bottom
+}}
 
 <label class="control-label">{{i18n "clothing_deals.size_shoes"}}</label>
-{{combo-box
-    valueProperty="value"
-    content=sizeShoesOptions
-    value=user.custom_fields.size_shoes
-    id="user-profile-custom-field-size-shoes"
-  }}
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeShoesOptions
+  value=user.custom_fields.size_shoes
+}}
 
 <label class="control-label">{{i18n "clothing_deals.size_gloves"}}</label>
-{{combo-box
-    valueProperty="value"
-    content=sizeGlovesOptions
-    value=user.custom_fields.size_gloves
-    id="user-profile-custom-field-size-gloves"
-  }}
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeGlovesOptions
+  value=user.custom_fields.size_gloves
+}}
 
 <label class="control-label">{{i18n "clothing_deals.size_hat"}}</label>
-{{combo-box
-    valueProperty="value"
-    content=sizeHatOptions
-    value=user.custom_fields.size_hat
-    id="user-profile-custom-field-size-hat"
-  }}
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeHatOptions
+  value=user.custom_fields.size_hat
+}}
 {{/if}}
