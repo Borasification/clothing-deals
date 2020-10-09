@@ -7,4 +7,6 @@ en:
       size_shoes: "Shoe size"
       size_gloves: "Glove size"
       size_hat: "Hat size"
-      deal_notification_message: "There is potentially a new deal in your size!"
+      deal_notification_message:
+        one: "There is potentially a new deal in your size!"
+        other: "There are potentially %{count} new deals in your size!"

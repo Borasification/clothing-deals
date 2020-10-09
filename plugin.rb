@@ -2,7 +2,7 @@
 
 # name: ClothingDeals
 # about: Enter your clothing sizes in your profile and get pinged when someone post a deal in your size!
-# version: 0.1
+# version: 0.2
 # authors: Maël Lavault
 # url: https://github.com/Borasification/clothing-deals
 
@@ -31,6 +31,16 @@ after_initialize do
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_hat'
   DiscoursePluginRegistry.serialized_current_user_fields << 'receive_good_deals'
 
+  def user_ids_by_category_and_size(category, size)
+    # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
+    begin
+      result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{category}' and value='#{size}'")
+    rescue Exception => exc
+      return []
+    end
+    return result.values.flatten
+  end
+
   def on_post_created(post)
     categories_to_fields = {
       "veste" => "size_top",
@@ -50,35 +60,33 @@ after_initialize do
 
     bot_username = SiteSetting.deal_bot_user
 
+    user_ids_to_ping = []
+
     begin
-      mentions_bot_name = post_contents.downcase =~ /@#{bot_username.downcase}\b/
-      command, category, size = post_contents.match(/(@#{bot_username.downcase}) ([\S]+) ([\S]+)/).captures
-    rescue => exception
-      return
-    end
-
-    if mentions_bot_name && categories_to_fields.key?(category) && size
-      # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
-      begin
-        result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{categories_to_fields[category]}' and value='#{size}'")
-        resultUsersNotificationsEnabled = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='receive_good_deals' and value='#{true}'")
-      rescue Exception => exc
-        puts exc
-        return
+      matches = post_contents.downcase.scan(/(@#{bot_username.downcase}) ([\S]+) ([\S]+)/)
+      matches.each do |match|
+        command, category, size = match
+        if categories_to_fields.key?(category) && size
+          user_ids_for_category_and_size = user_ids_by_category_and_size(categories_to_fields[category], size)
+          user_ids_for_category_and_size.each do |user_id_for_category_and_size|
+            if User.find(user_id_for_category_and_size).custom_fields["receive_good_deals"]
+              user_ids_to_ping.push(user_id_for_category_and_size)
+            end
+          end
+        end
       end
-      user_ids_notification_enabled = resultUsersNotificationsEnabled.values.flatten
-      user_ids_with_corresponding_size = result.values.flatten
-      user_ids_to_ping = user_ids_with_corresponding_size & user_ids_notification_enabled
-
-      user_ids_to_ping.each do |user_id_to_ping|
+      grouped_user_id_notifications_count = user_ids_to_ping.group_by{ |id| id.to_s }.transform_values{ |values| values.count }
+      grouped_user_id_notifications_count.each do |user_id, count|
         Notification.create!(
           notification_type: Notification.types[:custom],
-          user_id: user_id_to_ping,
+          user_id: user_id,
           topic_id: topic.id,
-          post_number: post.id,
-          data: {message: "js.clothing_deals.deal_notification_message"}.to_json
+          post_number: post.post_number,
+          data: {topic_title: topic.title, icon: "mentioned", message: "js.clothing_deals.deal_notification_message", count: count}.to_json
         )
       end
+    rescue => exception
+      return
     end
   end
 
