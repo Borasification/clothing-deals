@@ -9,5 +9,5 @@ fr:
       size_gloves: "Taille gants"
       size_hat: "Taille chapeau"
       deal_notification_message:
-        one: "Il y a un bon plan dans votre taille!"
-        other: "Il y a %{count} bons plans dans votre taille!"
+        one: "Il y a un bon plan dans votre taille !"
+        other: "Il y a %{count} bons plans dans votre taille !"
