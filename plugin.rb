@@ -33,14 +33,25 @@ after_initialize do
   DiscoursePluginRegistry.serialized_current_user_fields << 'size_hat'
   DiscoursePluginRegistry.serialized_current_user_fields << 'receive_good_deals'
 
-  def user_ids_by_category_and_size(category, size)
+  def user_ids_by_category_and_size(category, size, user_id)
     # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
     begin
-      result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{category}' and value='#{size}'")
+      result = ActiveRecord::Base.connection.execute("SELECT user_id FROM user_custom_fields WHERE name='#{category}' AND value='#{size}' AND user_id <> '#{user_id}'")
     rescue Exception => exc
+      puts exc
       return []
     end
     return result.values.flatten
+  end
+
+  def send_notification_to_poster(user_id, post_number, topic_id, notified_users_count)
+    Notification.create!(
+      notification_type: Notification.types[:custom],
+      user_id: user_id,
+      topic_id: topic_id,
+      post_number: post_number,
+      data: {icon: "mentioned", message: "js.clothing_deals.poster_notification_message", count: notified_users_count}.to_json
+    )
   end
 
   def on_post_created(post)
@@ -70,7 +81,7 @@ after_initialize do
       matches.each do |match|
         command, category, size = match
         if categories_to_fields.key?(category) && size
-          user_ids_for_category_and_size = user_ids_by_category_and_size(categories_to_fields[category], size)
+          user_ids_for_category_and_size = user_ids_by_category_and_size(categories_to_fields[category], size, user.id)
           user_ids_for_category_and_size.each do |user_id_for_category_and_size|
             if User.find(user_id_for_category_and_size).custom_fields["receive_good_deals"]
               user_ids_to_ping.push(user_id_for_category_and_size)
@@ -78,6 +89,7 @@ after_initialize do
           end
         end
       end
+      notified_users_count = user_ids_to_ping.uniq().count()
       grouped_user_id_notifications_count = user_ids_to_ping.group_by{ |id| id.to_s }.transform_values{ |values| values.count }
       grouped_user_id_notifications_count.each do |user_id, count|
         Notification.create!(
@@ -85,16 +97,17 @@ after_initialize do
           user_id: user_id,
           topic_id: topic.id,
           post_number: post.post_number,
-          data: {topic_title: topic.title, icon: "mentioned", message: "js.clothing_deals.deal_notification_message", count: count}.to_json
+          data: {icon: "mentioned", message: "js.clothing_deals.deal_notification_message", count: count}.to_json
         )
       end
+      send_notification_to_poster(user.id, post.post_number, topic.id, notified_users_count)
     rescue => exception
+      puts exception
       return
     end
   end
 
-  DiscourseEvent.on(:post_created) do |*params|
-    post, opts, user = params
+  DiscourseEvent.on(:post_created) do |post|
     on_post_created(post)
   end
 end

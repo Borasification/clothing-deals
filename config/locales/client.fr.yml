@@ -11,3 +11,6 @@ fr:
       deal_notification_message:
         one: "Il y a un bon plan dans votre taille !"
         other: "Il y a %{count} bons plans dans votre taille !"
+      poster_notification_message:
+        one: "Vous avez notifié 1 utilisateur avide de bons plans. Merci !"
+        other: "Vous avez notifié {count} utilisateurs avides de bons plans. Merci !"
