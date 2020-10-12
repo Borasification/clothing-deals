@@ -78,6 +78,7 @@ after_initialize do
 
     begin
       matches = post_contents.downcase.scan(/(@#{bot_username.downcase}) ([\S]+) ([\S]+)/)
+      return unless matches.count > 0
       matches.each do |match|
         command, category, size = match
         if categories_to_fields.key?(category) && size
