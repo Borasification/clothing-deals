@@ -11,3 +11,6 @@ en:
       deal_notification_message:
         one: "There is potentially a new deal in your size!"
         other: "There are potentially %{count} new deals in your size!"
+      poster_notification_message:
+        one: "You have notified 1 user keen on good deals. Thanks!"
+        other: "You have notified {count} users keen on good deals. Thanks!"
