@@ -2,15 +2,21 @@ fr:
   js:
     clothing_deals:
       receive_good_deals: "Recevoir les bons plans"
+      size_outerwear: "Taille outerwear"
       size_top: "Taille veste"
       size_shirt: "Taille chemise"
+      size_knitwear: "Taille mailles"
+      size_t_shirt: "Taille T-Shirt"
+      size_sweatshirt: "Taille sweatshirt"
       size_bottom: "Taille pantalon"
+      size_jeans: "Taille jeans"
       size_shoes: "Taille chaussures"
       size_gloves: "Taille gants"
       size_hat: "Taille chapeau"
       deal_notification_message:
         one: "Il y a un bon plan dans votre taille !"
         other: "Il y a %{count} bons plans dans votre taille !"
+      poster_zero_notification_message: "Aucun utilisateur n'est abonné à cette catégorie et taille. Désolé !"
       poster_notification_message:
         one: "Vous avez notifié 1 utilisateur avide de bons plans. Merci !"
         other: "Vous avez notifié {count} utilisateurs avides de bons plans. Merci !"

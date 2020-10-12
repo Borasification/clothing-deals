@@ -2,15 +2,21 @@ en:
   js:
     clothing_deals:
       receive_good_deals: "Receive good deals"
+      size_outerwear: "Outerwear size"
       size_top: "Top size"
       size_shirt: "Shirt size"
+      size_knitwear: "Knitwear size"
+      size_t_shirt: "T-Shirt size"
+      size_sweatshirt: "Sweatshirt size"
       size_bottom: "Bottom size"
+      size_jeans: "Jeans size"
       size_shoes: "Shoe size"
       size_gloves: "Glove size"
       size_hat: "Hat size"
       deal_notification_message:
         one: "There is potentially a new deal in your size!"
         other: "There are potentially %{count} new deals in your size!"
+      poster_zero_notification_message: "No user subscribed to this category and size."
       poster_notification_message:
         one: "You have notified 1 user keen on good deals. Thanks!"
         other: "You have notified {count} users keen on good deals. Thanks!"
