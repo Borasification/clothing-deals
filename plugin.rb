@@ -15,23 +15,22 @@ enabled_site_setting :clothing_deals_enabled
 PLUGIN_NAME ||= 'ClothingDeal'
 
 after_initialize do
+  User.register_custom_field_type 'size_outerwear', :string
   User.register_custom_field_type 'size_top', :string
   User.register_custom_field_type 'size_shirt', :string
+  User.register_custom_field_type 'size_t_shirt', :string
+  User.register_custom_field_type 'size_sweatshirt', :string
+  User.register_custom_field_type 'size_knitwear', :string
   User.register_custom_field_type 'size_bottom', :string
+  User.register_custom_field_type 'size_jeans', :string
   User.register_custom_field_type 'size_shoes', :string
   User.register_custom_field_type 'size_gloves', :string
   User.register_custom_field_type 'size_hat', :string
   User.register_custom_field_type 'receive_good_deals', :boolean
 
-  register_editable_user_custom_field [:receive_good_deals, size_top: [], size_shirt: [], size_bottom: [], size_shoes: [], size_gloves: [], size_hat: []]
+  register_editable_user_custom_field [:receive_good_deals, size_outerwear: [], size_top: [], size_shirt: [], size_t_shirt: [], size_sweatshirt: [], size_knitwear: [], size_bottom: [], size_jeans: [], size_shoes: [], size_gloves: [], size_hat: []]
 
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_top'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_shirt'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_bottom'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_shoes'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_gloves'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'size_hat'
-  DiscoursePluginRegistry.serialized_current_user_fields << 'receive_good_deals'
+  DiscoursePluginRegistry.serialized_current_user_fields.merge(['size_outerwear', 'size_top', 'size_shirt', 'size_t_shirt', 'size_sweatshirt', 'size_knitwear', 'size_bottom', 'size_jeans', 'size_shoes', 'size_gloves', 'size_hat', 'receive_good_deals'])
 
   def user_ids_by_category_and_size(category, size, user_id)
     # Seems like we can't do a where by custom_fields in the ORM, so we have to execute SQL manually...
@@ -50,15 +49,20 @@ after_initialize do
       user_id: user_id,
       topic_id: topic_id,
       post_number: post_number,
-      data: {icon: "mentioned", message: "js.clothing_deals.poster_notification_message", count: notified_users_count}.to_json
+      data: {icon: "mentioned", message: notified_users_count == 0 ? "js.clothing_deals.poster_zero_notification_message" : "js.clothing_deals.poster_notification_message", count: notified_users_count}.to_json
     )
   end
 
   def on_post_created(post)
     categories_to_fields = {
+      "outerwear" => "size_outerwear",
       "veste" => "size_top",
+      "maille" => "size_knitwear",
       "chemise" => "size_shirt",
+      "t-shirt" => "size_t_shirt",
+      "sweatshirt" => "size_sweatshirt",
       "pantalon" => "size_bottom",
+      "jeans" => "size_jeans",
       "chaussures" => "size_shoes",
       "gants" => "size_gloves",
       "chapeau" => "size_hat"

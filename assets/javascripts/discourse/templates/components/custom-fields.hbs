@@ -4,6 +4,17 @@
   {{i18n "clothing_deals.receive_good_deals"}}
 </label>
 
+<label class="control-label">{{i18n "clothing_deals.size_outerwear"}}</label>
+{{multi-select
+  allowAny=false
+  content=sizeOuterwearOptions
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  value=user.custom_fields.size_outerwear
+}}
+
 <label class="control-label">{{i18n "clothing_deals.size_top"}}</label>
 {{multi-select
   allowAny=false
@@ -13,6 +24,39 @@
     maximum=6
   )
   value=user.custom_fields.size_top
+}}
+
+<label class="control-label">{{i18n "clothing_deals.size_knitwear"}}</label>
+{{multi-select
+  allowAny=false
+  content=sizeKnitwearOptions
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  value=user.custom_fields.size_knitwear
+}}
+
+<label class="control-label">{{i18n "clothing_deals.size_t_shirt"}}</label>
+{{multi-select
+  allowAny=false
+  content=sizeTShirtOptions
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  value=user.custom_fields.size_t_shirt
+}}
+
+<label class="control-label">{{i18n "clothing_deals.size_sweatshirt"}}</label>
+{{multi-select
+  allowAny=false
+  content=sizeSweatshirtOptions
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  value=user.custom_fields.size_sweatshirt
 }}
 
 <label class="control-label">{{i18n "clothing_deals.size_shirt"}}</label>
@@ -35,6 +79,17 @@
   )
   content=sizeTopOptions
   value=user.custom_fields.size_bottom
+}}
+
+<label class="control-label">{{i18n "clothing_deals.size_jeans"}}</label>
+{{multi-select
+  allowAny=false
+  options=(hash
+    castInteger=true
+    maximum=6
+  )
+  content=sizeJeansOptions
+  value=user.custom_fields.size_jeans
 }}
 
 <label class="control-label">{{i18n "clothing_deals.size_shoes"}}</label>
