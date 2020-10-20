@@ -92,6 +92,8 @@ after_initialize do
               user_ids_to_ping.push(user_id_for_category_and_size)
             end
           end
+        else
+          return
         end
       end
       notified_users_count = user_ids_to_ping.uniq().count()
